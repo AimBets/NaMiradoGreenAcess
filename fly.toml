@@ -1,18 +1,13 @@
-app = "namiradogreenaccess"
+app = "namiradogreenacess"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
-processes = []
 
 [build]
-  image = "docker.io/namiradogreen/meu-bot:latest"
+  image = "docker.io/namiradogren/meu-bot:latest"
 
 [env]
-  TELEGRAM_TOKEN = "8487273468:AAHqd2NlNCb0HyG6IeJ784YY5A_YI3xemGw"
-  MP_ACCESS_TOKEN = "APP_USR-6797918640127185-112319-1c452a696a8c3b443de9b0fe2baa9c01-318433737"
-  SEGREDO_WEBHOOK = "P5F8yNkElytH7tQWgEB6dckYJDqFRk3R"
-  ID_GRUPO_VIP = "-1002915685276"
-  VALOR_GRUPO = "397.00"
+  TELEGRAM_TOKEN = "8399571746:AAFXxkkJOfOP8cWozYKUnitQTDPTmLpWky8"
 
 [[services]]
   internal_port = 8080
@@ -36,4 +31,3 @@ processes = []
     timeout = 2000
     grace_period = "5s"
     restart_limit = 0
-
