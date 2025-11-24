@@ -8,7 +8,7 @@ from flask import Flask, request, jsonify
 # --- 1. CONFIGURAÇÃO ---
 BOT_TOKEN = "8487273468:AAHqd2NlNCb0HyG6IeJ784YY5A_YI3xemGw"
 MP_ACCESS_TOKEN = "APP_USR-6797918640127185-112319-1c452a696a8c3b443de9b0fe2baa9c01-318433737"
-VALOR_GRUPO = 2.0  # <-- Alterado para R$ 2,00
+VALOR_GRUPO = 397.0
 ID_GRUPO_VIP = -1002915685276
 WEBHOOK_MP = "https://namiradogreenacess.fly.dev/mercadopago_webhook"
 
@@ -73,53 +73,3 @@ def start_payment(message):
 
 💰 Valor: R$ {VALOR_GRUPO:,.2f}
 📌 PIX Copia e Cola: 
-
-
-O pagamento será detectado automaticamente pelo Mercado Pago e você receberá seu link VIP assim que confirmado.
-"""
-        bot.send_message(chat_id, text, parse_mode="Markdown")
-        payments[str(user_id)] = {"chat_id": chat_id, "paid": False}
-    else:
-        bot.send_message(chat_id, "❌ Ocorreu um erro ao gerar seu PIX. Tente novamente mais tarde.")
-
-# --- WEBHOOK MERCADO PAGO ---
-@app.route("/mercadopago_webhook", methods=['POST'])
-def mercadopago_webhook():
-    data = request.json
-    try:
-        if data.get('topic') == 'payment':
-            payment_id = data.get('resource', '').split('/')[-1]
-            payment_resp = mp_sdk.payment().get(payment_id)
-            if payment_resp['status'] == 200:
-                payment_data = payment_resp['response']
-                status = payment_data.get('status')
-                if status == 'approved':
-                    external_ref = payment_data.get('external_reference')
-                    if external_ref and external_ref in payments and not payments[external_ref]["paid"]:
-                        chat_id = payments[external_ref]["chat_id"]
-                        link = create_invite_link(external_ref)
-                        bot.send_message(chat_id, f"🎉 Pagamento confirmado! Aqui está seu link VIP:\n{link}")
-                        payments[external_ref]["paid"] = True
-                        logging.info(f"Link enviado para {external_ref}")
-        return jsonify({"status": "ok"}), 200
-    except Exception as e:
-        logging.error(f"Erro webhook MP: {e}")
-        return jsonify({"status": "error", "error": str(e)}), 500
-
-# --- WEBHOOK TELEGRAM ---
-@app.route("/telegram_webhook", methods=['POST'])
-def telegram_webhook():
-    json_data = request.get_json()
-    if json_data:
-        update = telebot.types.Update.de_json(json_data)
-        bot.process_new_updates([update])
-    return "OK", 200
-
-# --- INDEX ---
-@app.route("/")
-def index():
-    return "Bot Telegram rodando via Webhook - Fly.io"
-
-# --- INICIALIZAÇÃO ---
-if __name__ == "__main__":
-    print("Bot pronto para rodar via webhook no Fly.io.")
