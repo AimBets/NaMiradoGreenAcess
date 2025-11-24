@@ -1,0 +1,39 @@
+app = "bot-telegram-vip"
+
+[build]
+  image = "Dockerfile"
+
+[env]
+  BOT_TOKEN = "SEU_TOKEN_AQUI"
+  MP_ACCESS_TOKEN = "SEU_TOKEN_MP"
+  VALOR_GRUPO = "397.0"
+  SEGREDO_WEBHOOK = "SEU_SEGREDO"
+  ID_GRUPO_VIP = "-1002915685276"
+  FIREBASE_CONFIG = ""
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = true
+
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
+  [services.concurrency]
+    type = "requests"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [[services.tcp_checks]]
+    interval = 10000
+    timeout = 2000
+    grace_period = "10s"
+    restart_limit = 0
