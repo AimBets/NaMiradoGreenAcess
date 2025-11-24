@@ -1,0 +1,20 @@
+name: Deploy to Fly.io
+
+on:
+  push:
+    branches:
+      - main  # Toda vez que houver push na branch main, vai disparar o deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@v1
+      - name: Deploy to Fly.io
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          flyctl deploy --config fly.toml --remote-only
