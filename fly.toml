@@ -5,7 +5,7 @@ kill_timeout = 5
 processes = []
 
 [build]
-  dockerfile = "Dockerfile"
+  image = "docker.io/namiradogreen/meu-bot:latest"
 
 [env]
   TELEGRAM_TOKEN = "8487273468:AAHqd2NlNCb0HyG6IeJ784YY5A_YI3xemGw"
@@ -36,3 +36,4 @@ processes = []
     timeout = 2000
     grace_period = "5s"
     restart_limit = 0
+
