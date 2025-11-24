@@ -1,7 +1,0 @@
-pyTelegramBotAPI==4.20.0
-Flask==3.0.0
-requests==2.31.0
-mercadopago==2.2.0
-python-dotenv==1.0.1
-firebase_admin
-gunicorn==21.2.0
