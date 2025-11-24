@@ -1,20 +1,27 @@
-name: Deploy to Fly.io
+name: Fly Deploy
 
 on:
   push:
     branches:
-      - main  # Toda vez que houver push na branch main, vai disparar o deploy
+      - main  # deploya sempre que houver push na branch main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Flyctl
-        uses: superfly/flyctl-actions/setup-flyctl@v1
-      - name: Deploy to Fly.io
+      - name: Checar código
+        uses: actions/checkout@v3
+
+      - name: Instalar Fly CLI
+        run: |
+          curl -L https://fly.io/install.sh | sh
+          export PATH="$HOME/.fly/bin:$PATH"
+
+      - name: Fazer login no Fly
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-        run: |
-          flyctl deploy --config fly.toml --remote-only
+        run: flyctl auth token $FLY_API_TOKEN
+
+      - name: Deploy no Fly
+        run: flyctl deploy --remote-only --config fly.toml
