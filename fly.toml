@@ -1,21 +1,25 @@
-app = "meu-bot-fly"
+app = "namiradogreenaccess"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
+# O Fly irá construir a imagem diretamente do Dockerfile local
 [build]
-  image = "meu-bot"
 
 [env]
-  TELEGRAM_TOKEN = "seu_token_aqui"
+  BOT_TOKEN = "8487273468:AAHqd2NlNCb0HyG6IeJ784YY5A_YI3xemGw"
+  MP_ACCESS_TOKEN = "APP_USR-6797918640127185-112319-1c452a696a8c3b443de9b0fe2baa9c01-318433737"
+  VALOR_GRUPO = "397.00"
+  SEGREDO_WEBHOOK = "P5F8yNkElytH7tQWgEB6dckYJDqFRk3R"
+  ID_GRUPO_VIP = "-1002915685276"
 
 [experimental]
-  allowed_public_ports = [8080]
+  allowed_public_ports = [80]
   auto_rollback = true
 
 [[services]]
-  internal_port = 8080
+  internal_port = 80
   protocol = "tcp"
 
   [services.concurrency]
