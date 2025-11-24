@@ -4,28 +4,15 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
-# O Fly irá construir a imagem diretamente do Dockerfile local
 [build]
+  dockerfile = "Dockerfile"
 
 [env]
-  BOT_TOKEN = "8487273468:AAHqd2NlNCb0HyG6IeJ784YY5A_YI3xemGw"
-  MP_ACCESS_TOKEN = "APP_USR-6797918640127185-112319-1c452a696a8c3b443de9b0fe2baa9c01-318433737"
-  VALOR_GRUPO = "397.00"
-  SEGREDO_WEBHOOK = "P5F8yNkElytH7tQWgEB6dckYJDqFRk3R"
-  ID_GRUPO_VIP = "-1002915685276"
-
-[experimental]
-  allowed_public_ports = [80]
-  auto_rollback = true
+  TELEGRAM_TOKEN = "8487273468:AAHqd2NlNCb0HyG6IeJ784YY5A_YI3xemGw"
 
 [[services]]
   internal_port = 80
   protocol = "tcp"
-
-  [services.concurrency]
-    type = "connections"
-    hard_limit = 25
-    soft_limit = 20
 
   [[services.ports]]
     port = 80
@@ -34,9 +21,3 @@ processes = []
   [[services.ports]]
     port = 443
     handlers = ["tls", "http"]
-
-  [[services.tcp_checks]]
-    interval = 10000
-    timeout = 2000
-    grace_period = "5s"
-    restart_limit = 0
